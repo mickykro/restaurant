@@ -8,9 +8,12 @@ const useStyles = makeStyles((theme) => ({
     triangle: {
         width: 0,
         height: 0,
-        borderLeft: '65px solid transparent',
-        borderRight: '65px solid transparent',
-        borderBottom: '65px solid #ff0000', 
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: 'transparent',
+        borderTopWidth: '0px',
+        borderWidth: '65px',
+        borderStyle:'solid', 
         marginRight: '10vh',
         marginBottom: '2vh',
         boxShadow:' 3px 21px 11px -10px grey',
@@ -29,13 +32,11 @@ const useStyles = makeStyles((theme) => ({
     },
     pentagonInner: {
         width: '1.5vh',
-        borderBottomColor: "red",
         borderBottomWidth: 0,
         borderLeftColor: "transparent",
         borderLeftWidth: 18,
         borderRightColor: "transparent",
         borderRightWidth: 18,
-        borderTopColor: "red",
         borderTopWidth: 50,
      },
     pentagonBefore : {
@@ -46,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: -1,
     left: 0,
     borderStyle: "solid",
-    borderBottomColor: "red",
     borderBottomWidth: 45,
     borderLeftColor: "transparent",
     borderLeftWidth: 47,
@@ -89,19 +89,24 @@ type props = {
     children?: React.ReactNode,
     onClick: Function,
     tableNumber: number,
-    available: string
+    available: boolean,
+    
 }
 
 const Table: FC<props> = ({ className='triangle' ,children, onClick, tableNumber, available }: props): ReactElement => {
     const classes = useStyles();    
+    const color = className === 'triangle'? 'transparent' : available ? 'green' : 'red';
+    const triangleColor = available ? 'green' : 'red'; 
+    const isPentagon = className === 'pentagon' ? 'transparent' : color;
     return (<Grid container item xs={4} direction='column'  >
         {className === 'pentagon' && <div>
-             <div className={classes.pentagonBefore} />
-        <div className={classes.pentagonInner} />
-        </div>
+             <div className={classes.pentagonBefore} style={{borderBottomColor: `${color}`}} />
+        <div className={classes.pentagonInner} style={{borderBottomColor: `${color}`, borderTopColor: `${color}`}}/>
+        </div> 
         }
-        <Button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) } />
-        {tableNumber}
+        <button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) }  style={{backgroundColor: `${color}`,
+         borderBottomColor: `${triangleColor}`}}></button>
+        {tableNumber} 
     </Grid>);
 }
 

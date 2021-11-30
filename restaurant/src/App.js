@@ -1,13 +1,22 @@
 import logo from './logo.svg';
-import Restaurant from './Design/restaurant';
+import { Grid } from '@material-ui/core';
+import { Home } from './Screens/Home';
 import './App.css';
 
 function App() {
-  return (<>
+  return (<Grid container direction='column' alignItems='center'
+    style={{
+      backgroundImage: "url(https://www.pixeden.com/media/k2/galleries/220/002-wood-melamine-subttle-pattern-background-pat.jpg)",
+      backgroundSize: 'auto',
+      position: 'absolute',
+      height:'100%',
+      backgroundRepeat: 'repeat'
+    }}>
     <h1>Poalim Restaurant</h1>
-    <Restaurant />
-</>
+    <Home />
+  </Grid >
   );
 }
 
 export default App;
+
