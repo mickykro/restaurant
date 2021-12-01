@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     triangle: {
         width: 0,
         height: 0,
+        backgroundColor: 'transparent',
         borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
         borderTopColor: 'transparent',
@@ -20,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
     },
     pentagon: {
         position: 'relative',
-        width: '1.5vh',
+        width: '6.25vh',
         boxSizing: 'content-box',
         borderWidth: '50px 18px 0',
         borderStyle: 'solid',
-        borderColor: 'red ',
         boxShadow: '10px 7px 5px grey',
         marginBottom: '2vh'
         
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     pentagonBefore : {
     position: "inherit",
     height: 0,
-    width: '2vh',
+    width: '1.5vh',
     marginTop: 10,
     marginBottom: -1,
     left: 0,
@@ -94,18 +94,47 @@ type props = {
 }
 
 const Table: FC<props> = ({ className='triangle' ,children, onClick, tableNumber, available }: props): ReactElement => {
-    const classes = useStyles();    
-    const color = className === 'triangle'? 'transparent' : available ? 'green' : 'red';
+    const classes = useStyles();  
+    const color =   available ? 'green' : 'red';
+    // const color = className === 'triangle'? 'transparent' : available ? 'green' : 'red';
     const triangleColor = available ? 'green' : 'red'; 
-    const isPentagon = className === 'pentagon' ? 'transparent' : color;
+    const isPentagon = className === 'pentagon'  || className == 'triangle'? className == 'triangle' ? color: 'transparent' : color;
+
+    const getButtonByClass = () =>{
+        switch(className){
+            case 'circle':
+                case 'square':
+                    case 'elipse': {
+                        return (
+                            <button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) }  style={{backgroundColor: `${color}`}}></button>
+                        )
+                    }
+                    break;
+            case 'triangle': {
+                return (
+                    <button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) }  style={{borderBottomColor: `${color}`}}></button>
+                )
+            }
+                    break;
+            case 'pentagon': {
+                return (
+                    <button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) }  style={{backgroundColor:`${color}`, borderColor: `${isPentagon}`}}></button>
+                )
+            }
+
+        }
+    }
+
     return (<Grid container item xs={4} direction='column'  >
         {className === 'pentagon' && <div>
              <div className={classes.pentagonBefore} style={{borderBottomColor: `${color}`}} />
         <div className={classes.pentagonInner} style={{borderBottomColor: `${color}`, borderTopColor: `${color}`}}/>
         </div> 
         }
-        <button className={classes[className]} onClick={(e) => ( onClick && onClick(e) ) }  style={{backgroundColor: `${color}`,
-         borderBottomColor: `${triangleColor}`}}></button>
+        {
+           
+        }
+        {getButtonByClass()}
         {tableNumber} 
     </Grid>);
 }
