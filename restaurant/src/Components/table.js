@@ -24,7 +24,7 @@ const Table = ({ number, diners, concat, freeSeats, openDialog = true, start, se
             const current = completed;
             current.push({ mobile, diners, start_time, end_time });
             setCompleted(current);
-        }, 15000)
+        }, 90000 )
     }
     const [dialog, setDialog] = useState();
     const [open, setOpen] = useState(openDialog);
