@@ -6,7 +6,6 @@ import Table from '../Components/table';
 
 const tablesFromJSON = floor.map((table, i) => {
 
-    console.log(table);
     return (
         {
             number: table.Table,
@@ -15,7 +14,8 @@ const tablesFromJSON = floor.map((table, i) => {
             available: true,
             freeSeats: table.Diners,
             openDialog: false,
-            start: 0
+            start: 0,
+            mobile: 0,
         }
     );
 });
@@ -23,7 +23,13 @@ const tablesFromJSON = floor.map((table, i) => {
 
 const ordersFromJSON = orders.map((order) => {
 
-    return <order mobile={order.Mobile} diners={order.Diners} />;
+    return (
+        {
+        mobile: order.Mobile,
+        diners: order.Diners
+    }
+    )
+    ;
 });
 
 export { tablesFromJSON, ordersFromJSON };

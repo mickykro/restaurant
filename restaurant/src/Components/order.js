@@ -1,3 +1,3 @@
-export const order= ( mobile, diners) =>{
-    return { mobile, diners}
+export const order = (mobile, diners) => {
+    return { mobile, diners }
 };
