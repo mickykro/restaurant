@@ -10,11 +10,11 @@ import { useTheme } from '@mui/material/styles';
 
 
 
-export default function ResponsiveDialog({ freeSeats, number , start, openDialog , setOpen }) {
+export default function ResponsiveDialog({ freeSeats, number , start, openDialog , setOpen, diners }) {
     const theme = useTheme();
     const [innerOpen, setInnerOpen] = useState(openDialog);
     const dialogTitle = freeSeats > 0 ? 'available table' : 'occupied table';
-    const dialogText = freeSeats > 0 ? `table number ${number} started at ${new Date(start).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })}`: 
+    const dialogText = freeSeats < diners ? `table number ${number} started at ${new Date(start).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })}`: 
     `table number ${number} is available and has ${freeSeats} empty seats`;
 
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
