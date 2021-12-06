@@ -31,9 +31,10 @@ export const Home = () => {
 
     useEffect(() => {
         const emptyTables = tables.filter(table => (table.freeSeats < table.diners));
-        if (emptyTables.length == 0 && !written && !initialWaitingList) {
+        if (emptyTables.length == 0 && !written && !initialWaitingList && completed.length != 0) {
 
-            writeFile(new Set(completed));
+            const completed_sorted = new Map(completed.map(obj=> [obj['mobile'],obj])).values();
+            writeFile(completed_sorted);
             setWritten(true);
         }
         waitingList.forEach(waiter => {
