@@ -2,8 +2,8 @@
  
 a restaurant reservations handler.
 
-## actions
-# open terminal 
+# actions
+## open terminal 
 - cd server
 - npm run render
 
