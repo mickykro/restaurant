@@ -2,6 +2,11 @@
  
 a restaurant reservations handler.
 
+## actions
+# open terminal 
+- cd server
+- npm run render
+
 ### `lacks: `
 - proiritizations
 - Input validations

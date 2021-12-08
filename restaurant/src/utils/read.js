@@ -23,7 +23,6 @@ const OrdersFromJSON = async () => {
     
 
 }
-console.log('orders from json: ',OrdersFromJSON())
 const tablesFromJSON = async () => {
     return await getFloor();
 }
