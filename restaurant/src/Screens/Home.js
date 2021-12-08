@@ -4,20 +4,21 @@
 import React, { useState, useEffect } from "react";
 import { Box } from '@material-ui/core';
 import Table from '../Components/table';
-import { tablesFromJSON, ordersFromJSON } from '../utils/read';
+import { tablesFromJSON, OrdersFromJSON } from '../utils/read';
 import { writeFile } from '../utils/writeFile';
 
 
 
 
 export const Home = () => {
-    const [tables, setTables] = useState(tablesFromJSON);
+    const [tables, setTables] = useState([]);
     const [displayTables, setDisplayTables] = useState([])
     const [waitingList, setWaitingList] = useState([]);
     const [initialWaitingList, setInitialWaitingList] = useState(true)
     const [completed, setCompleted] = useState([]);
     const [written, setWritten] = useState(false);
-    const orders = ordersFromJSON;
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -29,11 +30,60 @@ export const Home = () => {
 
     }, []);
 
+    function ordersManipulation(manipulate) {
+        return manipulate.map((order) => {
+
+            return (
+                {
+                    mobile: order.Mobile,
+                    diners: order.Diners
+                }
+            )
+                ;
+        })
+    }
+    function floorManipulation(manipulate) {
+        console.log(manipulate)
+      return  manipulate.map(table => {
+
+            return (
+                {
+                    number: table.Table,
+                    diners: table.Diners,
+                    concat: table.Concat,
+                    available: true,
+                    freeSeats: table.Diners,
+                    openDialog: false,
+                    start: 0,
+                    mobile: 0,
+                }
+            );
+
+        })
+    }
+
     useEffect(() => {
+        OrdersFromJSON().then(res => {
+            const ordersArray = res.data;
+            setOrders(ordersManipulation(ordersArray));
+
+        });
+        tablesFromJSON().then(res => {
+            const tablesArray = res.data;
+            setTables(floorManipulation(tablesArray));
+            setDisplayTables(displayTablesDesign());
+            setLoading(false);
+        });
+
+
+    }, [])
+
+    useEffect(() => {
+        if(tables){
         const emptyTables = tables.filter(table => (table.freeSeats < table.diners));
         if (emptyTables.length == 0 && !written && !initialWaitingList && completed.length != 0) {
 
-            const completed_sorted = new Map(completed.map(obj=> [obj['mobile'],obj])).values();
+            const completed_sorted = new Map(completed.map(obj => [obj['mobile'], obj])).values();
             writeFile(completed_sorted);
             setWritten(true);
         }
@@ -42,6 +92,7 @@ export const Home = () => {
             serveWaitingList(waiter);
 
         });
+    }
 
     }, [displayTables])
 
@@ -162,7 +213,8 @@ export const Home = () => {
             alignItems: 'center',
 
         }} >
-            {displayTables}
+            {loading && <h1>loading...</h1>}
+            {!loading && displayTables}
         </Box>
     );
 
