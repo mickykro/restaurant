@@ -6,4 +6,4 @@ a restaurant reservations handler.
 - proiritizations
 - Input validations
 - connect tables
-- more efficiency
+
