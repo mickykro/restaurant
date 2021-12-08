@@ -1,6 +1,7 @@
 
 const fs = require('fs');
-const {orders, floor} = require('./utils');
+const {orders, floor, completedPath} = require('./utils');
+
 
 
 exports.getOrders = async (req, res, next)=>{
@@ -16,5 +17,9 @@ exports.getFloor = async (req, res, next)=>{
 
 
 exports.addPosts =  async (req, res) => {
-     fs.appendFileSync(completedPath,data);
-}
+        const dataToAppend = req.body.json;
+        fs.w
+     fs.writeFile(completedPath,JSON.stringify({data:dataToAppend, dateAdded: Date.now()}),(err)=>{
+         console.log(err);
+     });
+    }

@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Box } from '@material-ui/core';
+import axios from "axios";
 import Table from '../Components/table';
 import { tablesFromJSON, OrdersFromJSON } from '../utils/read';
 import { writeFile } from '../utils/writeFile';
@@ -20,16 +21,17 @@ export const Home = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // use effect to update the build of tables and start serving orders
     useEffect(() => {
-
         setDisplayTables(displayTablesDesign());
         orders.forEach(order => {
             serveWaitingList(order);
         });
         setInitialWaitingList(false);
 
-    }, []);
+    }, [loading]);
 
+    // manipulate incoming json to match interal code
     function ordersManipulation(manipulate) {
         return manipulate.map((order) => {
 
@@ -42,9 +44,10 @@ export const Home = () => {
                 ;
         })
     }
+    // manipulate incoming json to match interal code and use 
     function floorManipulation(manipulate) {
-        console.log(manipulate)
-      return  manipulate.map(table => {
+        console.log('to manipulate: ', manipulate)
+        return manipulate.map(table => {
 
             return (
                 {
@@ -62,6 +65,7 @@ export const Home = () => {
         })
     }
 
+    // use effect to get orders and tables from server
     useEffect(() => {
         OrdersFromJSON().then(res => {
             const ordersArray = res.data;
@@ -70,6 +74,7 @@ export const Home = () => {
         });
         tablesFromJSON().then(res => {
             const tablesArray = res.data;
+
             setTables(floorManipulation(tablesArray));
             setDisplayTables(displayTablesDesign());
             setLoading(false);
@@ -78,21 +83,28 @@ export const Home = () => {
 
     }, [])
 
+
+    // use effect to track tables changes
     useEffect(() => {
-        if(tables){
-        const emptyTables = tables.filter(table => (table.freeSeats < table.diners));
-        if (emptyTables.length == 0 && !written && !initialWaitingList && completed.length != 0) {
+        if (tables) {
+            const emptyTables = tables.filter(table => (table.freeSeats < table.diners));
+            if (emptyTables.length == 0 && !written && !initialWaitingList && completed.length != 0) {
 
-            const completed_sorted = new Map(completed.map(obj => [obj['mobile'], obj])).values();
-            writeFile(completed_sorted);
-            setWritten(true);
+                const completed_sorted = new Map(completed.map(obj => [obj['mobile'], obj])).values();
+                axios.post('http://localhost:3001/add', { json: completed_sorted }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                writeFile(completed_sorted);
+                setWritten(true);
+            }
+            waitingList.forEach(waiter => {
+                setWaitingList(waitingList.filter(wait => (wait.mobile !== waiter.mobile)))
+                serveWaitingList(waiter);
+
+            });
         }
-        waitingList.forEach(waiter => {
-            setWaitingList(waitingList.filter(wait => (wait.mobile !== waiter.mobile)))
-            serveWaitingList(waiter);
-
-        });
-    }
 
     }, [displayTables])
 
