@@ -46,7 +46,6 @@ export const Home = () => {
     }
     // manipulate incoming json to match interal code and use 
     function floorManipulation(manipulate) {
-        console.log('to manipulate: ', manipulate)
         return manipulate.map(table => {
 
             return (
