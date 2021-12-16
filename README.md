@@ -4,11 +4,11 @@ a restaurant reservations handler.
 
 # actions
 ## open terminal
+- git clone https://github.com/mickykro/restaurant.git
 - cd restaurant
-- npm i --save
+- npm i 
 - cd.. 
 - cd server
-- npm i --save
 - npm run render
 
 ### `lacks: `
