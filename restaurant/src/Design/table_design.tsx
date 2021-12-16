@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     pentagon: {
         position: 'relative',
-        width: '6.25vh',
+        width: '9.5vh',
         boxSizing: 'content-box',
         borderWidth: '50px 18px 0',
         borderStyle: 'solid',
