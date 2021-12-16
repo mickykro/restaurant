@@ -7,8 +7,8 @@ a restaurant reservations handler.
 - git clone https://github.com/mickykro/restaurant.git
 - cd restaurant
 - npm i 
-- cd.. 
-- cd server
+- cd ../server  
+- npm i
 - npm run render
 
 ### `lacks: `

@@ -90,11 +90,7 @@ export const Home = () => {
             if (emptyTables.length == 0 && !written && !initialWaitingList && completed.length != 0) {
 
                 const completed_sorted = new Map(completed.map(obj => [obj['mobile'], obj])).values();
-                axios.post('http://localhost:3001/add', { json: completed_sorted }, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+               
                 writeFile(completed_sorted);
                 setWritten(true);
             }

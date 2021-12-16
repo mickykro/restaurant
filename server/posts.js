@@ -14,7 +14,9 @@ exports.getFloor = async (req, res, next)=>{
 
 
 exports.addPosts =  async (req, res) => {
-        const dataToAppend = req.body.json;
+       console.log(req.body); 
+       const dataToAppend = req.body.json;
+        
         
      fs.writeFile(completedPath,JSON.stringify({data:dataToAppend, dateAdded: Date.now()}),(err)=>{
          console.log(err);
