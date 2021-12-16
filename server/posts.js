@@ -14,7 +14,6 @@ exports.getFloor = async (req, res, next)=>{
 
 
 exports.addPosts =  async (req, res) => {
-       console.log(req.body); 
        const dataToAppend = req.body.json;
         
         
